@@ -7,7 +7,7 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Convolution2D, MaxPool2D, Flatten, Dense
 import numpy as np
-from keras.preprocessing.image import load_img, img_to_array
+from keras.utils import load_img, img_to_array
 
 
 # ImageDataGenerator is made for augmentation during training session
@@ -21,6 +21,12 @@ test_datagen = ImageDataGenerator()
 
 #enhancement generator with target size of image, batch size and class mode to classification 
 training_set = train_datagen.flow_from_directory(
+        TrainingImagePath,
+        target_size=(64, 64),
+        batch_size=32,
+        class_mode='categorical')
+
+test_set = test_datagen.flow_from_directory(
         TrainingImagePath,
         target_size=(64, 64),
         batch_size=32,
@@ -80,7 +86,7 @@ StartTime = time.time()
 classifier.fit_generator(
                     training_set,
                     epochs=10,
-                    epochs_step = 1,
+                   
                     validation_data=test_set,
                     validation_steps=10)
 
